@@ -60,6 +60,26 @@ The following diagram represents the database schema:
 3. Penalty: 1 point per late day
 4. Availability: Borrowing decreases available_copies, returning increases it
 
+## How Borrowing/Return Logic Works
+
+* A user can borrow a maximum of **3 active books at once**.
+* When borrowing:
+  * System checks borrowing limit.
+  * System checks if the book has `available_copies > 0`.
+  * If valid, decreases `available_copies` by 1 and creates a `Borrow` record.
+  * Sets `due_date` to **14 days** from the borrow date.
+* When returning:
+  * Updates `return_date`.
+  * Increases `available_copies` by 1.
+  * If returned after `due_date`, calculates penalty points.
+
+
+## How Penalty Points Are Calculated
+
+* For each day a book is returned **after the `due_date`**, **1 penalty point** is added to the user’s profile (`UserProfile.penalty_points`).
+* Example: If a book is returned **3 days late**, the user’s `penalty_points` increases by **3**.
+
+
 ## Author
 
 Md Fahad Mir

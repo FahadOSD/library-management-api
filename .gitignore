@@ -1,0 +1,10 @@
+# .gitignore
+venv/
+__pycache__/
+*.pyc
+db.sqlite3
+.env
+*.log
+*.swp
+.DS_Store
+/static/
